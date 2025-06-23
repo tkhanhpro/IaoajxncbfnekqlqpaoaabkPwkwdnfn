@@ -27,6 +27,11 @@ app.use(express.static(path.join(__dirname, '../client')));
 // Routes
 app.use('/', downloadRoutes);
 
+// Serve API docs
+app.get('/api-docs.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client', 'api-docs.html'));
+});
+
 // Serve index.html for other routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client', 'index.html'));
