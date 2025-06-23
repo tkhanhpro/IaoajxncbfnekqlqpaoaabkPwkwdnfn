@@ -3,25 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌟 TK - Downloader 🌟</title>
+  <title>🌟 TK Media Downloader 🌟</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fredoka+One&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;800&family=Inter:wght@400;600&family=DM+Mono:wght@400&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai-sublime.min.css">
 </head>
 <body>
   <canvas id="particleCanvas"></canvas>
+  <header class="header">
+    <div class="logo">🌟 TK Downloader</div>
+  </header>
   <div class="container" id="tiltContainer">
-    <h1 class="sparkle-title">🌟 TK Media Downloader 🌟</h1>
-    <p class="tagline">🌸 Owner and Created by TKhanh 💕</p>
+    <h1 class="sparkle-title">TK Media Downloader</h1>
+    <p class="tagline">Crafted with 💖 by TKhanh</p>
     <div class="input-box">
       <input type="text" id="mediaUrl" placeholder="Drop your link here... ✨" onfocus="animateInput()" />
       <button class="sparkle-btn" onclick="downloadMedia()">Tải Ngay!</button>
     </div>
     <div class="loader" id="loader"></div>
     <div class="result" id="result"></div>
-    <div class="json-box" id="jsonBox"></div>
+    <div class="json-box" id="jsonBox"><pre><code class="json"></code></pre></div>
     <div class="toast" id="toast"></div>
   </div>
+  <footer class="footer">
+    <p>Powdered by TKhanh&copy; 2025, TKDEV</p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
   <script src="script.js"></script>
 </body>
