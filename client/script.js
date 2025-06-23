@@ -5,7 +5,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const particles = [];
-const particleCount = 150;
+const particleCount = 100;
 
 class Particle {
   constructor() {
@@ -14,19 +14,19 @@ class Particle {
 
   reset() {
     this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height - canvas.height;
-    this.size = Math.random() * 4 + 1;
-    this.speedX = Math.random() * 0.8 - 0.4;
-    this.speedY = Math.random() * 0.8 + 0.4;
-    this.opacity = Math.random() * 0.6 + 0.3;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 3 + 1;
+    this.speedX = Math.random() * 0.5 - 0.25;
+    this.speedY = Math.random() * 0.5 - 0.25;
+    this.opacity = Math.random() * 0.5 + 0.3;
     this.color = ['#ff80ab', '#80d8ff', '#b388ff'][Math.floor(Math.random() * 3)];
   }
 
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
-    this.opacity -= 0.003;
-    if (this.opacity <= 0 || this.y > canvas.height) {
+    this.opacity -= 0.002;
+    if (this.opacity <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
       this.reset();
     }
   }
@@ -62,11 +62,10 @@ window.addEventListener('resize', () => {
 
 // 3D Tilt Effect
 VanillaTilt.init(document.querySelector('#tiltContainer'), {
-  max: 15,
+  max: 10,
   speed: 400,
   glare: true,
-  'max-glare': 0.4,
-  scale: 1.05
+  'max-glare': 0.2
 });
 
 // Input Animation
@@ -80,14 +79,13 @@ function animateInput() {
     i++;
     if (i >= placeholderText.length) clearInterval(typeInterval);
   }, 50);
-  input.style.animation = 'inputPulse 2s ease infinite';
 }
 
 // Download Media
 async function downloadMedia() {
   const url = document.getElementById('mediaUrl').value;
   const resultDiv = document.getElementById('result');
-  const jsonBox = document.getElementById('jsonBox');
+  const jsonBox = document.querySelector('#jsonBox code');
   const loader = document.getElementById('loader');
   const toast = document.getElementById('toast');
 
@@ -106,30 +104,32 @@ async function downloadMedia() {
 
     loader.style.display = 'none';
 
-    // Hiển thị JSON response
-    jsonBox.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    // Hiển thị JSON response với highlight.js
+    jsonBox.textContent = JSON.stringify(data, null, 2);
+    hljs.highlightElement(jsonBox);
 
     if (!data.success) {
-      showToast(data.message || 'Oops, something broke! 😿');
+      showToast(data.error || 'Oops, something broke! 😿');
       return;
     }
 
     let html = '';
-    if (data.data.downloadLinks && Array.isArray(data.data.downloadLinks)) {
+    if (data.medias && Array.isArray(data.medias)) {
       html += '<ul>';
-      data.data.downloadLinks.forEach(link => {
-        html += `<li><a href="${link.url}" target="_blank">${link.quality}</a></li>`;
+      data.medias.forEach(media => {
+        html += `<li><a href="${media.url}" target="_blank">${media.quality || 'Tải'}</a></li>`;
       });
       html += '</ul>';
     } else {
-      html = '<p>No download links found! 😕</p>';
+      html = '<p>No media to snag! 😕</p>';
     }
 
     resultDiv.innerHTML = html;
   } catch (error) {
     loader.style.display = 'none';
     showToast(`Yikes: ${error.message}`);
-    jsonBox.innerHTML = `<pre>Error: ${error.message}</pre>`;
+    jsonBox.textContent = `Error: ${error.message}`;
+    hljs.highlightElement(jsonBox);
   }
 }
 
@@ -139,5 +139,5 @@ function showToast(message) {
   toast.style.display = 'block';
   setTimeout(() => {
     toast.style.display = 'none';
-  }, 4000);
+  }, 3500);
 }
