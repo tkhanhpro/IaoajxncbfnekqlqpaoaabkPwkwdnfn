@@ -5,7 +5,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const particles = [];
-const particleCount = 120;
+const particleCount = 150;
 
 class Particle {
   constructor() {
@@ -19,7 +19,7 @@ class Particle {
     this.speedX = Math.random() * 0.4 - 0.2;
     this.speedY = Math.random() * 0.4 - 0.2;
     this.opacity = Math.random() * 0.5 + 0.3;
-    this.color = ['#ff99c8', '#8be4ff', '#c4b5fd'][Math.floor(Math.random() * 3)];
+    this.color = ['#ff66a3', '#00ccff', '#cc99ff'][Math.floor(Math.random() * 3)];
   }
 
   update() {
@@ -115,12 +115,29 @@ async function downloadMedia() {
 
     let html = '';
     if (data.medias && Array.isArray(data.medias)) {
-      html += '<ul>';
+      html += '<div class="media-cards">';
       data.medias.forEach(media => {
-        html += `<li><a href="${media.url}" target="_blank">${media.quality || 'Tải'}</a></li>`;
+        html += `
+          <div class="media-card">
+            <a href="${media.url}" target="_blank">${media.quality || 'Download'}</a>
+          </div>
+        `;
       });
-      html += '</ul>';
-    } else {
+      html += '</div>';
+    }
+
+    if (data.metadata) {
+      html += '<table class="metadata-table">';
+      for (const [key, value] of Object.entries(data.metadata)) {
+        html += `
+          <tr>
+            <td>${key}</td>
+            <td>${value || 'N/A'}</td>
+          </tr>
+        `;
+      }
+      html += '</table>';
+    } else if (!data.medias || data.medias.length === 0) {
       html = '<p>No media to snag! 😕</p>';
     }
 
