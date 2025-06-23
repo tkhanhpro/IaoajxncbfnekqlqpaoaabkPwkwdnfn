@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TK Media Downloader - API Documentation</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;800&family=Inter:wght@400;600&family=DM+Mono:wght@400&family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dracula.min.css">
+</head>
+<body>
+  <canvas id="particleCanvas"></canvas>
+  <header class="header">
+    <div class="logo">🌟 TK Downloader</div>
+    <a href="/" class="api-docs-link">Back to App</a>
+  </header>
+  <main class="main-content">
+    <section class="container docs-container">
+      <h1 class="sparkle-title">API Documentation</h1>
+      <p class="tagline">Learn how to use the TK Media Downloader API</p>
+      <div class="docs-section">
+        <h2>Overview</h2>
+        <p>The TK Media Downloader API allows you to download media from supported platforms using a simple GET endpoint. It returns a clean JSON response with media links and metadata.</p>
+        
+        <h2>Endpoint</h2>
+        <p><strong>GET</strong> <code>/down?url=&lt;media-url&gt;</code></p>
+        <p>Download media from a provided URL.</p>
+        <ul>
+          <li><strong>Parameter:</strong> <code>url</code> (required) - The URL of the media (e.g., YouTube, Instagram, etc.)</li>
+          <li><strong>Supported Platforms:</strong> Facebook, Instagram, YouTube, TikTok, Twitter/X, Vimeo, Dailymotion, Pinterest</li>
+        </ul>
+
+        <h2>Example Request</h2>
+        <pre><code class="bash">
+curl "https://<your-service-name>.onrender.com/down?url=https://www.youtube.com/watch?v=123456789"
+        </code></pre>
+
+        <h2>Example Response</h2>
+        <pre><code class="json">
+{
+  "success": true,
+  "error": null,
+  "medias": [
+    {
+      "url": "https://example.com/hd.mp4",
+      "quality": "HD"
+    },
+    {
+      "url": "https://example.com/sd.mp4",
+      "quality": "SD"
+    }
+  ],
+  "metadata": {
+    "title": "Sample Video",
+    "duration": "00:03:25",
+    "thumbnail": "https://example.com/thumb.jpg"
+  }
+}
+        </code></pre>
+
+        <h2>Error Responses</h2>
+        <ul>
+          <li><strong>400 Bad Request:</strong> Invalid or missing URL, or unsupported platform.</li>
+          <pre><code class="json">
+{
+  "success": false,
+  "error": "Only supported platforms work here! 😎",
+  "medias": null,
+  "metadata": null
+}
+          </code></pre>
+          <li><strong>429 Too Many Requests:</strong> Rate limit exceeded.</li>
+          <pre><code class="json">
+{
+  "success": false,
+  "error": "Too many requests, try again later! 😎",
+  "medias": null,
+  "metadata": null
+}
+          </code></pre>
+        </ul>
+
+        <h2>Usage Notes</h2>
+        <ul>
+          <li>Ensure the URL is from a supported platform.</li>
+          <li>Use HTTPS for secure requests.</li>
+          <li>Respect rate limits (100 requests per 15 minutes).</li>
+          <li>Comply with platform copyright policies.</li>
+        </ul>
+
+        <h2>Try It Out</h2>
+        <p>Test the API directly from the <a href="/">TK Media Downloader</a> interface or use the curl command above.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <p>Powered by TKhanh © 2025 TKhanh | <a href="/" class="footer-link">Back to App</a></p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    });
+  </script>
+</body>
+</html>
